@@ -4,30 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Presença</title>
+    <title>Aniversário do Neves</title>
+    <icon href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="container">
-        <div id="form">
-            <h1>Registro de Presença</h1>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="cadastro">🎉 Cadastro</button>
+            <button class="tab-button" data-tab="lista">📋 Lista de Participantes</button>
+            <button class="tab-button" data-tab="info">📍 Informações</button>
+        </div>
+
+        <div id="cadastro" class="tab-content active">
+            <h1>🎉 Aniversário do Neves 🎉</h1>
+            <p>Registre sua presença para o aniversário!</p>
             <form id="presenceForm">
                 <div class="form-group">
                     <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" required placeholder="Seu nome">
                 </div>
                 <div class="form-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required placeholder="seuemail@exemplo.com">
                 </div>
-                <button type="submit">Registrar Presença</button>
+                <button type="submit">Confirmar Presença</button>
             </form>
             <div id="message"></div>
         </div>
 
-        <h2 id="presenceTitle"></h2>
-        <ul id="presenceList"></ul>
+        <div id="lista" class="tab-content">
+            <h2>📋 Quem já confirmou presença:</h2>
+            <ul id="presenceList"></ul>
+        </div>
+
+        <div id="info" class="tab-content">
+            <h2>📍 Informações do Evento</h2>
+            <div class="info-content">
+                <p><strong>Data:</strong> 26 de fevereiro de 2025 (quarta-feira)</p>
+                <p><strong>Horário:</strong> 19:30 adiante</p>
+                <p><strong>Endereço:</strong> <a href="https://www.google.com/maps/place/BLEND+GASTROBAR/@-16.7146582,-49.2683811,17z/data=!3m1!4b1!4m6!3m5!1s0x935ef15797f767fd:0x2f40c8361ed4a50a!8m2!3d-16.7146583!4d-49.2635156!16s%2Fg%2F11r99x4_bw?entry=ttu&g_ep=EgoyMDI1MDIxNy4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">R. S-1, 237 - St. Bela Vista, Goiânia - GO, 74823-310</a></p>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

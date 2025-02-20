@@ -1,30 +1,17 @@
-document.getElementById('presenceForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+function switchTab(event) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
+    tabButtons.forEach(button => button.classList.remove('active'));
+    tabContents.forEach(content => content.classList.remove('active'));
 
-    try {
-        const response = await fetch('https://presence-m38v.onrender.com/presence', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name, email })
-        });
+    const targetTab = event.target.getAttribute('data-tab');
+    event.target.classList.add('active');
+    document.getElementById(targetTab).classList.add('active');
+}
 
-        if (response.ok) {
-            const data = await response.json();
-            document.getElementById('message').textContent = 'Presença registrada com sucesso!';
-            document.getElementById('presenceForm').reset();
-            loadPresences(); // Recarrega a lista de presenças após registrar uma nova
-        } else {
-            const errorData = await response.json();
-            document.getElementById('message').textContent = `Erro: ${errorData.error}`;
-        }
-    } catch (error) {
-        document.getElementById('message').textContent = `Erro: ${error.message}`;
-    }
+document.querySelectorAll('.tab-button').forEach(button => {
+    button.addEventListener('click', switchTab);
 });
 
 async function loadPresences() {
@@ -33,19 +20,11 @@ async function loadPresences() {
         if (response.ok) {
             const presences = await response.json();
             const presenceList = document.getElementById('presenceList');
-            const presenceTitle = document.getElementById('presenceTitle');
-            const form = document.getElementById('form');
-            
-            presenceList.innerHTML = ''; // Limpa a lista antes de adicionar os novos itens
-            presenceTitle.innerHTML = 'Lista de presença:'; // Atualiza o título
-            form.classList.add('hidden');
+            presenceList.innerHTML = '';
 
-            presences.forEach((presence, index) => {
+            presences.forEach((presence) => {
                 const li = document.createElement('li');
-                const span = document.createElement('span');
-                span.textContent = `${index + 1}`;
-                li.appendChild(span);
-                li.appendChild(document.createTextNode(` - ${presence.name}`));
+                li.textContent = presence.name;
                 presenceList.appendChild(li);
             });
         } else {
@@ -56,5 +35,29 @@ async function loadPresences() {
     }
 }
 
-// Carrega a lista de presenças quando a página é carregada
-// document.addEventListener('DOMContentLoaded', loadPresences);
+document.getElementById('presenceForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    try {
+        const response = await fetch('https://presence-m38v.onrender.com/presence', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email }),
+        });
+
+        if (response.ok) {
+            document.getElementById('message').textContent = 'Presença registrada com sucesso!';
+            loadPresences();
+        } else {
+            document.getElementById('message').textContent = 'Erro ao registrar presença. Tente novamente.';
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+    }
+});
+
+loadPresences();
