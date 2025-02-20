@@ -5,9 +5,11 @@ function switchTab(event) {
     tabButtons.forEach(button => button.classList.remove('active'));
     tabContents.forEach(content => content.classList.remove('active'));
 
-    const targetTab = event.target.getAttribute('data-tab');
-    event.target.classList.add('active');
-    document.getElementById(targetTab).classList.add('active');
+    if (event.target.classList.contains('tab-button')) {
+        const targetTab = event.target.getAttribute('data-tab');
+        event.target.classList.add('active'); 
+        document.getElementById(targetTab).classList.add('active');
+    }
 }
 
 document.querySelectorAll('.tab-button').forEach(button => {
@@ -20,13 +22,16 @@ async function loadPresences() {
         if (response.ok) {
             const presences = await response.json();
             const presenceList = document.getElementById('presenceList');
-            presenceList.innerHTML = '';
 
-            presences.forEach((presence) => {
-                const li = document.createElement('li');
-                li.textContent = presence.name;
-                presenceList.appendChild(li);
-            });
+            if (presenceList) {
+                presenceList.innerHTML = '';
+
+                presences.forEach((presence) => {
+                    const li = document.createElement('li');
+                    li.textContent = `${presence.name}`; 
+                    presenceList.appendChild(li);
+                });
+            }
         } else {
             console.error('Erro ao carregar presenças');
         }
@@ -38,7 +43,8 @@ async function loadPresences() {
 document.getElementById('presenceForm').addEventListener('submit', async (event) => {
     event.preventDefault();
     const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
+
+    document.getElementById('message').textContent = '';
 
     try {
         const response = await fetch('https://presence-m38v.onrender.com/presence', {
@@ -46,17 +52,19 @@ document.getElementById('presenceForm').addEventListener('submit', async (event)
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name, email }),
+            body: JSON.stringify({ name }),
         });
 
         if (response.ok) {
             document.getElementById('message').textContent = 'Presença registrada com sucesso!';
-            loadPresences();
+            loadPresences(); 
+            document.getElementById('presenceForm').reset();
         } else {
             document.getElementById('message').textContent = 'Erro ao registrar presença. Tente novamente.';
         }
     } catch (error) {
         console.error('Erro:', error);
+        document.getElementById('message').textContent = 'Erro ao conectar com o servidor.';
     }
 });
 

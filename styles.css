@@ -16,7 +16,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    min-height: 460px;
+    min-height: 475px;
+    max-height: 475px;
     width: 100%;
     text-align: center;
 }
@@ -144,14 +145,18 @@ button[type="submit"]:hover {
     list-style-type: none;
     padding: 0;
     margin: 0;
+    max-height: 300px; 
+    overflow-y: auto; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #fff; 
 }
 
 #presenceList li {
     background-color: #fff;
     margin: 0.5rem 0;
     padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border-bottom: 1px solid #ddd;
     display: flex;
     align-items: center;
     transition: background-color 0.3s ease;
