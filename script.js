@@ -72,11 +72,4 @@ document.getElementById('presenceForm').addEventListener('submit', async (event)
     }
 });
 
-document.getElementById('closeModal').addEventListener('click', () => {
-    const modal = document.getElementById('bloodTypeModal');
-    const overlay = document.getElementById('modalOverlay');
-    modal.classList.remove('active');
-    overlay.classList.remove('active');
-});
-
 loadPresences();
